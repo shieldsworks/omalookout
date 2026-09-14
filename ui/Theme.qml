@@ -4,7 +4,7 @@ import Quickshell.Io
 
 // The Omarchy theme: its colors.toml, and the shell's font size. Reloads
 // when the theme changes, so the window follows a theme switch at once.
-// The bar popover uses the shell's own colours; this is for the window.
+// The bar popover uses the shell's own colors; this is for the window.
 QtObject {
     id: theme
     readonly property string dir: Quickshell.env("OMALOOKOUT_THEME_DIR")
@@ -30,7 +30,7 @@ QtObject {
             if (!line || line[0] === "#") continue;
             var head = line.match(/^\[([^\]]+)\]\s*(#.*)?$/);
             if (head) { section = head[1].trim() + "."; continue; }
-            // A quoted value keeps its `#` (colours are "#rrggbb"); a bare
+            // A quoted value keeps its `#` (colors are "#rrggbb"); a bare
             // one ends at a comment.
             var kv = line.match(/^([\w.-]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^#]*?))\s*(#.*)?$/);
             if (!kv) continue;
