@@ -117,9 +117,20 @@ Item {
             focus: true
             Keys.onPressed: e => app.key(e)
 
+            // The app's name, so the window is known at a glance even with
+            // nothing to list.
+            Label {
+                id: appName
+                anchors { left: parent.left; right: parent.right; top: parent.top; margins: 14 }
+                text: "OMALOOKOUT"
+                color: app.theme.accent
+                font.bold: true
+                font.pixelSize: app.theme.baseSize - 1
+            }
+
             Label {
                 id: title
-                anchors { left: parent.left; right: parent.right; top: parent.top; margins: 14 }
+                anchors { left: parent.left; right: parent.right; top: appName.bottom; topMargin: 6; leftMargin: 14; rightMargin: 14 }
                 text: app.header
                 color: app.dangers ? app.theme.red : app.theme.foreground
                 font.pixelSize: app.theme.baseSize + 2
