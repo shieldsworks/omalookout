@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "org.omahoy.lookout",
+  "name": "Omalookout",
+  "version": "0.1.0",
+  "author": "Casey Shields",
+  "license": "MIT",
+  "homepage": "https://omahoy.org",
+  "description": "AIS targets and collision alarms, from omakeel",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "ui/LookoutBar.qml"
+  },
+  "barWidget": {
+    "displayName": "Omalookout",
+    "description": "Nearest vessel, collision alarms, and every vessel heard",
+    "category": "Navigation",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}
