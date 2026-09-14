@@ -10,7 +10,9 @@ die() { printf '%s\n' "$@" >&2; exit 1; }
 
 id=org.omahoy.lookout
 root=$(readlink -f "$PWD")
-plugins=${XDG_CONFIG_HOME:-${HOME:?}/.config}/omarchy/plugins
+# The shell's plugin registry scans ~/.config/omarchy/plugins whatever
+# XDG_CONFIG_HOME says, so link where it looks.
+plugins=${HOME:?}/.config/omarchy/plugins
 target=$plugins/$id
 backup=$plugins/.$id.unlinked
 

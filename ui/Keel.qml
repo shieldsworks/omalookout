@@ -21,7 +21,7 @@ QtObject {
     readonly property var dangers: targets.filter(t => t.danger)
     readonly property var nearest: {
         for (let i = 0; i < targets.length; i++) {
-            if (targets[i].rangeNm !== undefined) return targets[i];
+            if (typeof targets[i].rangeNm === "number") return targets[i];
         }
         return null;
     }
@@ -33,13 +33,19 @@ QtObject {
         } catch (e) {
             return;
         }
+        // Only a well-formed message counts. Anything else, even a bare {},
+        // is ignored rather than taken as another protocol version.
+        if (message === null || typeof message !== "object" || typeof message.v !== "number") return;
         if (message.v !== keel.version) {
             keel.incompatible = true;
             keel.socket.connected = false;
             return;
         }
-        if (message.type === "state") keel.fix = message.fix;
-        else if (message.type === "targets") keel.targets = message.targets;
+        if (message.type === "state") {
+            keel.fix = message.fix !== null && typeof message.fix === "object" ? message.fix : null;
+        } else if (message.type === "targets" && Array.isArray(message.targets)) {
+            keel.targets = message.targets.filter(t => t !== null && typeof t === "object" && typeof t.mmsi === "number");
+        }
         // Other types are ignored, as the protocol asks.
     }
 
@@ -48,15 +54,18 @@ QtObject {
         return t.name !== undefined ? t.name : "MMSI " + t.mmsi;
     }
 
+    // Every field is checked for a number before it's shown: a missing
+    // bearing is left out rather than drawn as NaN.
     function range(t) {
-        if (t.rangeNm === undefined) return "";
-        return t.rangeNm.toFixed(t.rangeNm < 10 ? 2 : 1) + " nm " + String(Math.round(t.bearingDeg) % 360).padStart(3, "0") + "°";
+        if (typeof t.rangeNm !== "number") return "";
+        const bearing = typeof t.bearingDeg === "number" ? " " + String(Math.round(t.bearingDeg) % 360).padStart(3, "0") + "°" : "";
+        return t.rangeNm.toFixed(t.rangeNm < 10 ? 2 : 1) + " nm" + bearing;
     }
 
     function approach(t) {
-        if (t.lat === undefined) return "no position yet";
-        if (t.rangeNm === undefined) return "waiting for our fix";
-        if (t.cpaNm === undefined) return "no CPA: course unknown";
+        if (typeof t.lat !== "number") return "no position yet";
+        if (typeof t.rangeNm !== "number") return "waiting for our fix";
+        if (typeof t.cpaNm !== "number" || typeof t.tcpaMinutes !== "number") return "no CPA: course unknown";
         if (t.tcpaMinutes === 0) return "closest now, opening";
         return "CPA " + t.cpaNm.toFixed(2) + " nm in " + t.tcpaMinutes.toFixed(1) + " min";
     }

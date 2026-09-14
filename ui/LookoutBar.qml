@@ -28,7 +28,7 @@ BarWidget {
     readonly property string label: {
         if (Keel.incompatible) return "AIS ?";
         if (!Keel.connected) return "AIS off";
-        if (danger) return "⚠ " + Keel.called(danger) + " " + danger.cpaNm.toFixed(2) + " nm";
+        if (danger) return "⚠ " + Keel.called(danger) + (typeof danger.cpaNm === "number" ? " " + danger.cpaNm.toFixed(2) + " nm" : "");
         if (Keel.nearest) return "AIS " + Keel.targets.length + " · " + Keel.nearest.rangeNm.toFixed(1) + " nm";
         return "AIS " + Keel.targets.length;
     }
@@ -69,7 +69,9 @@ BarWidget {
             id: content
             anchors.fill: parent
             active: root.opened
-            sourceComponent: TargetList {}
+            sourceComponent: TargetList {
+                onCloseRequested: root.close()
+            }
         }
     }
 }
