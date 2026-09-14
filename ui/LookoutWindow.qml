@@ -77,6 +77,8 @@ Item {
         else if (e.key === Qt.Key_K || e.key === Qt.Key_Up) scroll(-1);
         else if (e.text === "g") list.contentY = 0;
         else if (e.text === "G") scroll(1e6);
+        // A held key would flicker between palettes.
+        else if (e.text === "n") { if (!e.isAutoRepeat) theme.night = !theme.night; }
         else if (e.text === "q") dismiss();
         else return;
         e.accepted = true;
@@ -88,8 +90,10 @@ Item {
         target: "omalookout"
         function status(): string {
             return JSON.stringify({connected: Keel.connected, targets: app.targets.length, dangers: app.dangers,
-                                   fix: Keel.fix ? Keel.fix.status : "", opened: app.opened});
+                                   fix: Keel.fix ? Keel.fix.status : "", opened: app.opened,
+                                   night: app.theme.night});
         }
+        function night(): void { app.theme.night = !app.theme.night; }
     }
 
     FloatingWindow {
@@ -121,11 +125,30 @@ Item {
             // nothing to list.
             Label {
                 id: appName
-                anchors { left: parent.left; right: parent.right; top: parent.top; margins: 14 }
+                anchors { left: parent.left; right: nightButton.left; top: parent.top; margins: 14 }
                 text: "OMALOOKOUT"
                 color: app.theme.accent
                 font.bold: true
                 font.pixelSize: app.theme.baseSize - 1
+            }
+
+            // Night Watch for this window only: red on black.
+            Rectangle {
+                id: nightButton
+                anchors { right: parent.right; rightMargin: 14; verticalCenter: appName.verticalCenter }
+                height: 22
+                width: nightLabel.implicitWidth + 16
+                color: app.theme.night ? app.theme.accent : "transparent"
+                border.width: 1
+                border.color: app.theme.night ? app.theme.accent : Qt.alpha(app.theme.foreground, 0.25)
+                Label {
+                    id: nightLabel
+                    anchors.centerIn: parent
+                    text: "NIGHT  n"
+                    color: app.theme.night ? app.theme.background : app.theme.foreground
+                    font.pixelSize: app.theme.baseSize - 1
+                }
+                MouseArea { anchors.fill: parent; onClicked: app.theme.night = !app.theme.night }
             }
 
             Label {
