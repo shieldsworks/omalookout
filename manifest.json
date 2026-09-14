@@ -8,10 +8,12 @@
   "homepage": "https://omahoy.org",
   "description": "AIS targets and collision alarms, from omakeel",
   "kinds": [
-    "bar-widget"
+    "bar-widget",
+    "panel"
   ],
   "entryPoints": {
-    "barWidget": "ui/LookoutBar.qml"
+    "barWidget": "ui/LookoutBar.qml",
+    "panel": "ui/Panel.qml"
   },
   "barWidget": {
     "displayName": "Omalookout",

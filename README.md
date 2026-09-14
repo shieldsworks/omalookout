@@ -2,10 +2,12 @@
 
 AIS targets and collision alarms for [Omahoy](https://github.com/shieldsworks/omahoy).
 
-Omalookout is an Omarchy bar widget. The bar shows the nearest vessel. When
-any vessel will pass within 0.5 nm in the next 12 minutes, the bar turns
-the theme's urgent color and names it. Click for every vessel heard,
-nearest first, with range, bearing, and closest point of approach.
+Omalookout is an Omarchy bar widget and a window. The bar shows the nearest
+vessel. When any vessel will pass within 0.5 nm in the next 12 minutes, the
+bar turns the theme's urgent color and names it. Click for every vessel
+heard, nearest first, with range, bearing, and closest point of approach.
+Or open the same list in a window of its own, to tile beside the
+chartplotter.
 
 **Status: early.** It works with [omakeel](https://github.com/shieldsworks/omakeel)'s
 AIS on a replayed sail. It hasn't met a real AIS receiver yet.
@@ -38,11 +40,24 @@ Omarchy 4 on x86_64 or aarch64, with omakeel installed.
 omarchy plugin add https://github.com/shieldsworks/omalookout.git --enable
 ```
 
-To open the list from the keyboard, add one line to
+To open the window from the keyboard, add one line to
 `~/.config/hypr/bindings.lua`:
 
 ```lua
 o.bind("SUPER + SHIFT + A", "Omalookout", "omarchy shell shell toggle org.omahoy.lookout '{}'")
+```
+
+The window tiles like any other, so it can sit beside the chartplotter on
+its workspace. It shows every vessel with its range and bearing, closest
+point of approach, speed, course, status and destination, and says when
+there's no GPS fix to range from. `j` and `k` scroll, `g` and `G` jump to
+the top and bottom, and `q` closes it. The bar's popover still opens with
+a click.
+
+To run the window on its own, outside the shell, from a checkout:
+
+```sh
+./run.sh
 ```
 
 ## Develop

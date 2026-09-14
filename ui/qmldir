@@ -1,3 +1,6 @@
 singleton Keel 1.0 Keel.qml
 LookoutBar 1.0 LookoutBar.qml
 TargetList 1.0 TargetList.qml
+LookoutWindow 1.0 LookoutWindow.qml
+Panel 1.0 Panel.qml
+Theme 1.0 Theme.qml
