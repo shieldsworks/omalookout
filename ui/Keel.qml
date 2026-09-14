@@ -66,7 +66,9 @@ QtObject {
         if (typeof t.lat !== "number") return "no position yet";
         if (typeof t.rangeNm !== "number") return "waiting for our fix";
         if (typeof t.cpaNm !== "number" || typeof t.tcpaMinutes !== "number") return "no CPA: course unknown";
-        if (t.tcpaMinutes === 0) return "closest now, opening";
+        // 0 means closest now, not necessarily opening: two vessels on the
+        // same course and speed stay this close.
+        if (t.tcpaMinutes === 0) return "closest now";
         return "CPA " + t.cpaNm.toFixed(2) + " nm in " + t.tcpaMinutes.toFixed(1) + " min";
     }
 
