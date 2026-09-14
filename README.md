@@ -54,6 +54,11 @@ there's no GPS fix to range from. `j` and `k` scroll, `g` and `G` jump to
 the top and bottom, and `q` closes it. The bar's popover still opens with
 a click.
 
+`n`, or the NIGHT button, turns the window to Night Watch: red on black
+whatever the theme, to keep your night vision. It's off each time
+Omalookout starts, and it changes only this window, so the chartplotter
+beside it can stay as it is.
+
 To run the window on its own, outside the shell, from a checkout:
 
 ```sh
