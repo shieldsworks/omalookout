@@ -53,15 +53,17 @@ Item {
         return "GPS  ok";
     }
 
-    // Speed, course, class, status, destination, and how long ago.
+    // How long ago, first, so a narrow window cuts the destination rather
+    // than the sign of a stale report; then speed, course, class, status
+    // and destination.
     function motion(t) {
         const parts = [];
+        if (typeof t.ageSeconds === "number" && t.ageSeconds >= 60) parts.push("heard " + Math.round(t.ageSeconds / 60) + " min ago");
         if (typeof t.sogKn === "number") parts.push(t.sogKn.toFixed(1) + " kn");
         if (typeof t.cogDeg === "number") parts.push(String(Math.round(t.cogDeg) % 360).padStart(3, "0") + "°T");
         if (typeof t.class === "string") parts.push("class " + t.class);
         if (typeof t.status === "string") parts.push(t.status);
         if (typeof t.destination === "string" && t.destination !== "") parts.push("to " + t.destination);
-        if (typeof t.ageSeconds === "number" && t.ageSeconds >= 60) parts.push("heard " + Math.round(t.ageSeconds / 60) + " min ago");
         return parts.join("  ·  ");
     }
 
