@@ -176,7 +176,7 @@ Item {
                 opacity: 0.65
                 text: Keel.connected
                     ? "No vessels heard in the last 10 minutes. Targets come from omakeel's AIS receiver."
-                    : "Start it with an AIS receiver, for example:\nomakeel run --source serial:/dev/ttyACM0:38400"
+                    : "The hub isn't running. Run omahoy doctor to see why."
             }
 
             ListView {

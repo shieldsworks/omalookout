@@ -18,11 +18,8 @@ Omalookout draws; [omakeel](https://github.com/shieldsworks/omakeel) listens. Th
 decodes AIS from a receiver like the dAISy, keeps every vessel heard in the
 last 10 minutes, and works out each one's CPA against the boat's fix. It
 flags collisions even with the laptop closed. Omalookout reads the hub's
-`targets` over its socket, so it needs omakeel running:
-
-```sh
-omakeel run --source serial:/dev/ttyUSB0:4800 --source serial:/dev/ttyACM0:38400
-```
+`targets` over its socket, so it needs omakeel running. If the hub isn't
+running, the target list says so; run `omahoy doctor` to see why.
 
 In the bar:
 
